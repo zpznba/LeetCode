@@ -37,3 +37,59 @@ class Solution {
 	    }
 	};
 ```
+**2019-01-10 两数平方和** 
+
+[633. Sum of Square Numbers (Easy)](https://leetcode.com/problems/sum-of-square-numbers/description/)
+
+```html
+Input: 5
+Output: True
+Explanation: 1 * 1 + 2 * 2 = 5
+```
+
+题目描述：判断一个数是否为两个数的平方和。
+
+```C++
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        int a = 0;
+        int b = sqrt(c);
+        int sum = 0;
+        while(a<=b){
+            sum=a*a+b*b;
+            if(sum==c) return true;
+            else if(sum<c) ++a;
+            else
+                --b;
+        }
+        return false;
+    }
+};
+```
+**2019-01-10 反转字符串中的元音字符** 
+
+[345. Reverse Vowels of a String (Easy)](https://leetcode.com/problems/reverse-vowels-of-a-string/description/)
+
+```html
+Given s = "leetcode", return "leotcede".
+```
+
+使用双指针指向待反转的两个元音字符，一个指针从头向尾遍历，一个指针从尾到头遍历。
+
+```C++
+class Solution {
+public:
+    string reverseVowels(string s) {
+        int i = 0;
+        int j = s.size()-1;
+        while(i<j){
+            i = s.find_first_of("aeiouAEIOU",i); //在s中的i位置开始查找"aeiouAEIOU"中任何一个字符第一次出现的位置
+            j = s.find_last_of("aeiouAEIOU",j);//在s中的j位置开始向前查找"aeiouAEIOU"中任何一个字符第一次出现的位置
+            if(i<j)
+                swap(s[i++],s[j--]);
+        }
+        return s;
+    }
+};
+```
