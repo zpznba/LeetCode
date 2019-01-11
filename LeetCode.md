@@ -93,3 +93,70 @@ public:
     }
 };
 ```
+**2019-01-11 回文字符串** 
+
+[680. Valid Palindrome II (Easy)](https://leetcode.com/problems/valid-palindrome-ii/description/)
+
+```html
+Input: "abca"
+Output: True
+Explanation: You could delete the character 'c'.
+```
+
+题目描述：可以删除一个字符，判断是否能构成回文字符串。
+
+```C++
+class Solution {
+public:
+    bool validPalindrome(string s) {
+        int i=0,j=s.size()-1;
+        while(i<j){
+            if(s[i]!=s[j])
+                return vaild(s,i+1,j)||vaild(s,i,j-1);
+            ++i;
+            --j;
+        }
+        return true;
+    }
+    bool vaild(string s,int left,int right){
+        while(left<right){
+            if(s[left++]!=s[right--]) return false;
+        }
+        return true;
+    }
+};
+```
+**2019-01-11 归并两个有序数组** 
+
+[88. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)
+
+```html
+Input:
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+Output: [1,2,2,3,5,6]
+```
+
+题目描述：把归并结果存到第一个数组上。
+
+需要从尾开始遍历，否则在 nums1 上归并得到的值会覆盖还未进行归并比较的值。
+
+```C++ 
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i=m-1;
+        int j=n-1;
+        int k=m+n-1; //将最大的值存到K的位置
+        while(i>=0&&j>=0){
+            if(nums1[i]>nums2[j])
+                nums1[k--]=nums1[i--];
+            else
+                nums1[k--]=nums2[j--];
+        }
+        while(j>=0)
+            nums1[k--]=nums2[j--];
+    }
+};
+```
