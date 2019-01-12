@@ -160,3 +160,33 @@ public:
     }
 };
 ```
+**2019-01-12 移动零** 
+[283.Move Zeroes(easy)](https://leetcode.com/problems/move-zeroes/)
+
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+```html
+示例:
+
+输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+```
+说明:
+
+必须在原数组上操作，不能拷贝额外的数组。
+尽量减少操作次数。
+
+思路：
+我们让两个指针同时从0出发，只考虑快指针，当快指针指向非零元素时，我们需要交换快和慢指针指向的元素，然后推进两个指针。如果它是零元素，我们只是推进快指针，这样慢指针自然就指向了0。代码很简单如下：
+
+```C++ 
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        for(int slow=0,fast=0;fast<nums.size();++fast){
+            if(nums[fast]!=0)
+                swap(nums[slow++],nums[fast]);
+        }
+    }
+};
+
+```
