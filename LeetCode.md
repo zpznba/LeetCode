@@ -1,3 +1,9 @@
+# 算法思想
+
+## 双指针
+
+双指针主要用于遍历数组，两个指针指向不同的元素，从而协同完成任务。
+
 **2019-01-09 有序数组的 Two Sum** 
 
 [Leetcode ：167. Two Sum II - Input array is sorted (Easy)](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
@@ -189,4 +195,129 @@ public:
     }
 };
 
+```
+**2019-01-13 判断链表是否存在环** 
+
+[141. Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/description/)
+
+使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。
+
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head == NULL || head -> next == NULL)    
+            return false;
+ 
+        ListNode *fast = head;
+        ListNode *slow = head;
+        //这里的while循环很关键，因为fast每次要走两步，所以必须检测下一步和下下步是否存在？
+        while(fast -> next && fast -> next -> next){
+            fast = fast -> next -> next;
+            slow = slow -> next;
+            if(fast == slow)
+                return true;
+        }
+ 
+        return false;
+    }
+};
+```
+## 排序
+
+### 快速选择
+
+用于求解  **Kth Element**  问题，使用快速排序的 partition() 进行实现。
+
+需要先打乱数组，否则最坏情况下时间复杂度为 O(N<sup>2</sup>)。
+
+### 堆排序
+
+用于求解  **TopK Elements**  问题，通过维护一个大小为 K 的堆，堆中的元素就是 TopK Elements。
+
+堆排序也可以用于求解 Kth Element 问题，堆顶元素就是 Kth Element。
+
+快速选择也可以求解 TopK Elements 问题，因为找到 Kth Element 之后，再遍历一次数组，所有小于等于 Kth Element 的元素都是 TopK Elements。
+
+可以看到，快速选择和堆排序都可以求解 Kth Element 和 TopK Elements 问题。
+
+**Kth Element** 
+
+[215. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
+
+题目描述：找到第 k 大的元素。
+
+**排序** ：时间复杂度 O(NlogN)，空间复杂度 O(1)
+
+```C++
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        return nums[nums.size()-k];
+    }
+};
+```
+
+**堆排序** ：时间复杂度 O(NlogK)，空间复杂度 O(K)。
+
+```C++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        for(auto num :nums){
+            q.push(num);
+            if(q.size()>k)
+                q.pop();
+        }
+        return q.top();
+    }
+private:
+    priority_queue<int,vector<int>,greater<int> >q;//小顶堆
+};
+```
+
+**快速选择** ：时间复杂度 O(N)，空间复杂度 O(1)
+
+```C++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int l=0,r=nums.size()-1;
+        k=nums.size()-k;
+        while(l<=r){
+            int index = partition(nums,l,r);
+            if(index==k)
+                return nums[index];
+            else if(index<k)
+                l = index+1;
+            else
+                r = index-1;
+        }
+        return 0;
+    }
+    int partition(vector<int>& nums, int start, int end)
+    {
+        if(start==end)
+            return start;
+        int pivot = nums[end];
+        while(start<end){
+            while(start<end && nums[start]<=pivot) ++start;
+            nums[end]=nums[start];
+            while(start<end && nums[end]>=pivot) --end;
+            nums[start]=nums[end];
+        }
+        nums[end]=pivot;
+        return end;
+    }
+};
 ```
