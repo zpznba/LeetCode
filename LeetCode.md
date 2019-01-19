@@ -321,3 +321,66 @@ public:
     }
 };
 ```
+### 桶排序
+
+**出现频率最多的 k 个数** 
+
+[347. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
+
+关于这道题可以看我的博客：https://blog.csdn.net/zpznba/article/details/86550839
+
+```html
+Given [1,1,1,2,2,3] and k = 2, return [1,2].
+```
+
+设置若干个桶，每个桶存储出现频率相同的数，并且桶的下标代表桶中数出现的频率，即第 i 个桶中存储的数出现的频率为 i。
+
+把数都放到桶之后，从后向前遍历桶，最先得到的 k 个数就是出现频率最多的的 k 个数。
+
+```C++
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        for (int num : nums)
+            ++m[num];
+        
+        vector<vector<int>> buckets(nums.size() + 1); 
+        for (auto p : m)
+            buckets[p.second].push_back(p.first);
+        
+        vector<int> ans;
+        for (int i = buckets.size() - 1; i >= 0 && ans.size() < k; --i) {
+            for (int num : buckets[i]) {
+                ans.push_back(num);
+                if (ans.size() == k)
+                    break;
+            }
+        }
+        return ans;
+    }
+};
+```
+当然也可以用之前的堆排序来做:
+
+```C++
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int,int> tmp;
+        vector<int> res;
+        priority_queue<pair<int,int>> q;
+        for(auto c : nums){
+            tmp[c]++;
+        }
+        for(auto it : tmp){
+            q.push({it.second,it.first});
+        }
+        for(int i=0;i<k;++i){
+            res.push_back(q.top().second);
+            q.pop();
+        }
+        return res;
+    }
+};
+```
