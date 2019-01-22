@@ -384,3 +384,59 @@ public:
     }
 };
 ```
+**2019-01-21-按照字符出现次数对字符串排序** 
+
+[451. Sort Characters By Frequency (Medium)](https://leetcode.com/problems/sort-characters-by-frequency/description/)
+
+```html
+Input:
+"tree"
+
+Output:
+"eert"
+
+Explanation:
+'e' appears twice while 'r' and 't' both appear once.
+So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+```
+1.堆排序
+```C++
+class Solution {
+public:
+    string frequencySort(string s) {
+        string res = "";
+        unordered_map<char, int> m;
+        priority_queue<pair<int,char> > q;
+        for (char c : s) ++m[c];
+        for(auto a : m)
+            q.push({a.second,a.first});
+        while(!q.empty()){
+            res.append(q.top().first,q.top().second);
+            q.pop();
+        }
+        return res; 
+    }  
+};
+```
+2.桶排序
+```C++
+class Solution {
+public:
+    string frequencySort(string s) {
+        string res;
+        unordered_map<char, int> m;
+        vector<string> bucket(s.size()+1,"");
+        for (char c : s) ++m[c];
+        for(auto it : m){
+            int n = it.second;
+            char c = it.first;
+            bucket[n].append(n,c);
+        }
+        for(int i= s.size();i>0;--i){
+            if(!bucket[i].empty())
+                res.append(bucket[i]);
+        }
+        return res; 
+    }  
+};
+```
