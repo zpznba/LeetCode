@@ -440,3 +440,78 @@ public:
     }  
 };
 ```
+### 荷兰国旗问题
+
+荷兰国旗包含三种颜色：红、白、蓝。
+
+有三种颜色的球，算法的目标是将这三种球按颜色顺序正确地排列。
+
+它其实是三向切分快速排序的一种变种，在三向切分快速排序中，每次切分都将数组分成三个区间：小于切分元素、等于切分元素、大于切分元素，而该算法是将数组分成三个区间：等于红色、等于白色、等于蓝色。
+
+<div align="center"> <img src="pics/3b49dd67-2c40-4b81-8ad2-7bbb1fe2fcbd.png"/> </div><br>
+
+**按颜色进行排序** 
+
+[75. Sort Colors (Medium)](https://leetcode.com/problems/sort-colors/description/)
+
+```html
+Input: [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+```
+
+题目描述：只有 0/1/2 三种颜色。
+
+双指针法
+```C++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n=nums.size();
+        int left = 0;
+        int right = n-1;
+        int i = 0;
+        while(i <= right)
+        {
+            if(nums[i] == 0)
+            {
+                swap(nums[left], nums[i]);
+                left ++;
+                i ++;
+            }
+            else if(nums[i] == 1)
+            {
+                i ++;
+            }    
+            else
+            {
+                swap(nums[i], nums[right]);
+                right --;
+            }
+        }
+}
+};
+```
+平移插入法
+```C++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int i = -1,j = -1,k = -1;//注意i，j，k的含义
+        int m;
+        for(m = 0; m < nums.size();m++){
+            if(nums[m] == 0){
+                nums[++k] = 2;
+                nums[++j] = 1;
+                nums[++i] = 0;
+            }
+            else if(nums[m] == 1){
+                nums[++k] = 2;
+                nums[++j] = 1;
+            }
+            else {
+                nums[++k] = 2;
+            }
+        }
+    }
+};
+```
