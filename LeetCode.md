@@ -586,5 +586,34 @@ Explanation: You don't need to remove any of the intervals since they're already
 按区间的结尾进行排序，每次选择结尾最小，并且和前一个区间不重叠的区间。
 
 ```C++
-//明天做
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    static bool cmp(const Interval &a,const Interval &b){
+        return a.end < b.end;
+    }
+    int eraseOverlapIntervals(vector<Interval>& intervals) {
+        int len = intervals.size();
+        if(len == 0 || len == 1)
+            return 0;
+        sort(intervals.begin(),intervals.end(),cmp);
+        int count = 1;
+        int end = intervals[0].end;
+        for(int i = 1;i<len;++i){
+            if(end > intervals[i].start)
+                continue;
+            end = intervals[i].end;
+            ++count;
+        }
+        return len-count;
+    }
+};
 ```
