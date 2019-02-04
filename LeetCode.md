@@ -652,3 +652,69 @@ public:
     }
 };
 ```
+**根据身高和序号重组队列** 
+
+[406. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
+
+```html
+Input:
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+
+Output:
+[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+```
+
+题目描述：一个学生用两个分量 (h, k) 描述，h 表示身高，k 表示排在前面的有 k 个学生的身高比他高或者和他一样高。
+
+这道题给了我们一个队列，队列中的每个元素是一个pair，分别为身高和前面身高不低于当前身高的人的个数，让我们重新排列队列，使得每个pair的第二个参数都满足题意。首先我们给队列先排个序，按照身高高的排前面，如果身高相同，则第二个数小的排前面。
+为什么要这样搞？？为了使插入操作不影响后续的操作，身高较高的学生应该先做插入操作，否则身高较小的学生原先正确插入的第 k 个位置可能会变成第 k+1 个位置。
+然后我们新建一个空的数组，遍历之前排好序的数组，然后根据每个元素的第二个数字，将其插入到res数组中对应的位置，参见代码如下：
+
+```C++
+class Solution {
+public:
+    vector<pair<int, int>> reconstructQueue(vector<pair<int, int>>& people) {
+        sort(people.begin(),people.end(),[](const pair<int,int>& a,const pair<int,int>& b){
+            return (a.first>b.first||a.first==b.first&&a.second<b.second);
+        });
+        vector<pair<int,int>> res;
+        for(auto a: people){
+            res.insert(res.begin()+a.second,a);
+        }
+        return res;
+    }
+};
+```
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
