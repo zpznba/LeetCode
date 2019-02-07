@@ -734,8 +734,62 @@ public:
     }
 };
 ```
+**种植花朵** 
+
+[605. Can Place Flowers (Easy)](https://leetcode.com/problems/can-place-flowers/description/)
+
+```html
+Input: flowerbed = [1,0,0,0,1], n = 1
+Output: True
+```
+
+题目描述：花朵之间至少需要一个单位的间隔，求解是否能种下 n 朵花。
 
 
+我们遍历花床，如果某个位置为0，我们就看其前面一个和后面一个位置的值，注意处理首位置和末位置的情况.由于首位置和末位置的特殊性（只用看一侧，另一侧则可以视作是0），所以我们干脆直接先在首尾各加了一个0，然后就三个三个的来遍历，如果找到了三个连续的0，那么n自减1，i自增1，这样相当于i一下向后跨了两步，可以自行带例子检验，最后还是看n是否小于等于0，参见代码如下：
+```C++
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        if(n == 0)
+            return true;
+        flowerbed.push_back(0);
+        flowerbed.insert(flowerbed.begin(),0);
+        for(int i = 1;i<flowerbed.size()-1;++i){
+            if(flowerbed[i-1]+flowerbed[i]+flowerbed[i+1] == 0){
+                --n;
+                ++i;
+            }   
+        }
+        return n<=0;
+    }
+};
+```
+**判断是否为子序列** 
+
+[392. Is Subsequence (Medium)](https://leetcode.com/problems/is-subsequence/description/)
+
+```html
+s = "abc", t = "ahbgdc"
+Return true.
+```
+很简单的双指针问题： 
+
+```C++
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        if(s.empty())
+            return true;
+        int i = 0,j = 0;
+        while(i<s.size() && j<t.size()){
+            if(s[i] == t[j]) ++i;
+            ++j;
+        }
+        return i==s.size();
+    }
+};
+```
 
 
 
