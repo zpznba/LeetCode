@@ -822,6 +822,59 @@ public:
     }
 };
 ```
+**股票的最大收益** 
+
+[122. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
+
+题目描述：一次股票交易包含买入和卖出，多个交易之间不能交叉进行。
+
+对于 [a, b, c, d]，如果有 a <= b <= c <= d ，那么最大收益为 d - a。而 d - a = (d - c) + (c - b) + (b - a) ，因此当访问到一个 prices[i] 且 prices[i] - prices[i-1] > 0，那么就把 prices[i] - prices[i-1] 添加到收益中，从而在局部最优的情况下也保证全局最优。
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int res=0;
+        if(prices.empty())
+            return 0;
+        for(int i=0;i<prices.size()-1;++i)
+        {
+            if(prices[i]<prices[i+1])
+            {
+                res+=prices[i+1]-prices[i];
+            }
+        }
+        return res;
+    }
+};
+```
+**子数组最大的和** 
+
+[53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
+
+```html
+For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
+the contiguous subarray [4,-1,2,1] has the largest sum = 6.
+```
+求数组中最大子序列的和，可以遍历每一个数组元素，找到以这个元素结尾的最大子序列，然后就变成了n个数求最大值，比当前max大的再更新。那么问题就在于怎么求每个元素的结尾的最大子序列。每个元素结尾的子序列要么是它本身，以及加上它前面的子序列们。我们只需要找到之前子序列中的最大的，如果是负数或0那当前最大子序列就是元素本身，如果是正数，那就是加上它成为当前下标的最大子序列。然后不断向前推进。
+```C++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        vector<int>::iterator it = nums.begin();
+        int maxsum =*it;
+        int cursum =*it;
+        
+        for(it=it+1;it!=nums.end();++it){
+            cursum = max(cursum + *it, *it);
+            
+            if(cursum>maxsum)
+                maxsum = cursum;
+        }
+        return maxsum;
+    }
+};
+```
 
 
 
