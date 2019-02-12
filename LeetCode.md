@@ -875,6 +875,29 @@ public:
     }
 };
 ```
+**买入和售出股票最大的收益** 
+
+[121. Best Time to Buy and Sell Stock (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
+
+题目描述：只进行一次交易。
+
+只要记录前面的最小价格，将这个最小价格作为买入价格，然后将当前的价格作为售出价格，查看当前收益是不是最大收益。
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.empty()) return 0;
+        vector<int>::iterator it = prices.begin();
+        int curmin = *it;//记录到目前为止的最小价格
+        int resmax = 0;//收益初始化
+        for(it=it+1;it!=prices.end();++it){
+            resmax = max(*it - curmin,resmax); 
+            curmin = curmin <= *it ? curmin : *it;
+        }
+        return resmax;//返回最终收益
+};
+```
 
 
 
