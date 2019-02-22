@@ -965,7 +965,34 @@ public:
     }
 };
 ```
+**有序数组的 Single Element** 
 
+[540. Single Element in a Sorted Array (Medium)](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
+
+```html
+Input: [1, 1, 2, 3, 3, 4, 4, 8, 8]
+Output: 2
+```
+
+题目描述：一个有序数组只有一个数不出现两次，找出这个数。要求以 O(logN) 时间复杂度进行求解。
+
+可以把数组中的元素两两一组编组，如0、1为一组，2、3为一组.....这样每次看Mid和它同组的小伙伴是否相等？（mid为奇数，则看mid和mid+1;mid为偶数，则看mid和mid-1）如果相等了，说明落单数在右边，如果不等，说明在左边.
+
+```C++
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int l = 0 ;
+        int r =nums.size()-1;
+        while(l < r){
+            int mid = l + (r - l)/2;
+            if(nums[mid] == nums[mid ^ 1]) l = mid + 1;
+            else r = mid;
+        }
+        return nums[l];
+    }
+};
+```
 
 
    
