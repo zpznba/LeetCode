@@ -993,6 +993,61 @@ public:
     }
 };
 ```
+**第一个错误的版本** 
+
+[278. First Bad Version (Easy)](https://leetcode.com/problems/first-bad-version/description/)
+
+题目描述：给定一个元素 n 代表有 [1, 2, ..., n] 版本，可以调用 isBadVersion(int x) 知道某个版本是否错误，要求找到第一个错误的版本。
+
+如果第 m 个版本出错，则表示第一个错误的版本在 [l, m] 之间，令 h = m；否则第一个错误的版本在 [m + 1, h] 之间，令 l = m + 1。
+
+因为 h 的赋值表达式为 h = m，因此循环条件为 l < h。
+
+```C++
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int l = 1;
+        int r = n;
+        while(l < r){
+            int mid = l + (r - l)/2;
+            if(isBadVersion(mid))
+                r = mid;
+            else
+                l = mid+1;
+        }
+        return l;
+    }
+};
+```
+**旋转数组的最小数字** 
+
+[153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+
+```html
+Input: [3,4,5,1,2],
+Output: 1
+```
+
+```C++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int l = 0;
+        int r = nums.size()-1;
+        while(l < r){
+            int mid = l + (r - l)/2;
+            if(nums[mid] <= nums[r])
+                r = mid;
+            else
+                l = mid + 1;
+        }
+        return nums[l];
+    }
+};
+```
+
+
 
 
    
