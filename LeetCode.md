@@ -1046,7 +1046,49 @@ public:
     }
 };
 ```
+**查找区间** 
 
+[34. Search for a Range (Medium)](https://leetcode.com/problems/search-for-a-range/description/)
+
+```html
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+```
+
+```C++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res(2,-1);
+        if(nums.empty())
+            return res;
+        int left = 0,right = nums.size()-1;
+        while(left < right){
+            int mid = left +(right-left)/2;
+            if(nums[mid]<target)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        if(nums[right]!=target)
+            return res;
+        res[0] = right;
+        right = nums.size();
+        while(left < right){
+            int mid = left + (right - left)/2;
+            if(nums[mid] <= target)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        res[1] = left - 1;
+        return res;
+    }
+};
+```
 
 
 
